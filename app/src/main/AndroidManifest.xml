@@ -6,6 +6,8 @@
     <!-- Permissions to wake up screen and disable keyguard setting for alarm controller activity -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!-- This permission is required if user has set a custom alarm from external sd card -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="false"
@@ -24,18 +26,18 @@
             </intent-filter>
         </activity>
 
+        <!-- If we pass an intent filter here android identifies it as an implicit broadcast and doesn't work on oreo above -->
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
             android:exported="false">
-            <intent-filter>
-                <action android:name="com.musicals.recurringalarms.alarmreceiver.ACTION_TRIGGER_ALARM" />
-            </intent-filter>
         </receiver>
 
+        <!-- Here exclude from recent won't show it in recent stack after finishing -->
         <activity android:name=".AlarmControllerActivity"
             android:showOnLockScreen="true"
-            android:screenOrientation="sensorPortrait">
+            android:screenOrientation="sensorPortrait"
+            android:excludeFromRecents="true">
 
         </activity>
     </application>

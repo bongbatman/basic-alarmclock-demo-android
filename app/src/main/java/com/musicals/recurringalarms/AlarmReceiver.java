@@ -38,10 +38,15 @@ public class AlarmReceiver extends BroadcastReceiver {
                     alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
                 }
             }
+            //set alarm volume to max when it rings
+            final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setStreamVolume(AudioManager.STREAM_ALARM, audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM), 0);
 
             //create new intent to start controller activity even on lock screen
             Intent startActivityIntent = new Intent(context, AlarmControllerActivity.class);
+            startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(startActivityIntent);
+
 
             //get ringtone from that uri here
             Ringtone ringtone = RingtoneManager.getRingtone(context, alert);

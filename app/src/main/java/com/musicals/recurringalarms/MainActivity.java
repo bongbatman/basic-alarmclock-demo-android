@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -44,19 +45,28 @@ public class MainActivity extends AppCompatActivity {
          *                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|
          *                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
          */
-        Intent alarmActionIntent = new Intent(ACTION_TRIGGER_ALARM);
-
+        Intent alarmActionIntent = new Intent(this, AlarmReceiver.class);
+        alarmActionIntent.setAction(ACTION_TRIGGER_ALARM);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this,
         1, alarmActionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //create new intent to start controller activity when alarm clock is clicked from settings
+        Intent startActivityIntent = new Intent(this, MainActivity.class);
+        startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent startActivityPendingIntent = PendingIntent.getActivity(this, 2, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         //Calender is used to set and get time for the alarm
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 2);
-        calendar.set(Calendar.MINUTE, 45);
+        calendar.set(Calendar.HOUR_OF_DAY, 16);
+        calendar.set(Calendar.MINUTE, 10);
+
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        if (alarmManager != null) {
+
+
+
+        //        if (alarmManager != null) {
 //            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
 //                    SystemClock.elapsedRealtime()+1000,
 //                    60000,
@@ -70,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 //                    alarmPendingIntent);
 
 //            sets alarm clock with system alarm clock icon
-            alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), alarmPendingIntent), alarmPendingIntent);
+            alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), startActivityPendingIntent), alarmPendingIntent);
             Log.i(LOG_TAG, "onCreate: ALARMCLOCK " + alarmManager.getNextAlarmClock().getTriggerTime());
         }
 

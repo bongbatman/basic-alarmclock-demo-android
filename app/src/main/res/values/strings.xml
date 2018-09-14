@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RecurringAlarms</string>
-    <string name="cancel_alarm">Cancel</string>
+    <string name="cancel_alarm">Dismiss</string>
+    <string name="snooze">Snooze</string>
 </resources>
