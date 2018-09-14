@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         //Calender is used to set and get time for the alarm
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 16);
-        calendar.set(Calendar.MINUTE, 10);
+        calendar.set(Calendar.MINUTE, 35);
 
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

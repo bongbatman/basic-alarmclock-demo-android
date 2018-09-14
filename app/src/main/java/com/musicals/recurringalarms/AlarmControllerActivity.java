@@ -66,6 +66,9 @@ public class AlarmControllerActivity extends AppCompatActivity {
 
                 //not works while activity is shown on lock screen
                 Toast.makeText(AlarmControllerActivity.this, "huh bc dismiss bhi karo ab", Toast.LENGTH_SHORT).show();
+
+                myHandler.removeCallbacks(mRunnable);
+
                 finish();
             }
         });
@@ -120,6 +123,12 @@ public class AlarmControllerActivity extends AppCompatActivity {
                                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
                                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|
                                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+    }
+
+    @Override
+    protected void onPause() {
+        myHandler.removeCallbacks(mRunnable);
+        super.onPause();
     }
 
     @Override
